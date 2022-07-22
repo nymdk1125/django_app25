@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>ノートの詳細</h1>
+<p>{{ note.title }}</p>
+<p>{{ note.text }}</p>
+<a href="{% url 'note:note_update' note.pk %}">編集</a>
+<a href="{% url 'note:note_delete' note.pk %}">削除</a>
+<a href="http://localhost:8000/notehome">戻る</a>
+{% endblock %}

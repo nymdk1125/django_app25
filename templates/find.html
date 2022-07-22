@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .note {
+        background-color: #fff;
+        padding: 32px;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .note > a {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .note > a:hover {
+        overflow: hidden;
+        transform: scale(1.1);
+        transition-duration: 1s;
+    }
+
+    .note-title {
+        margin-bottom: 16px;
+        font-size: 22px;
+        color: #333;
+        font-weight: 400;
+    }
+
+    .meta {
+        margin-bottom: 32px;
+        color: #999;
+        font-size: 14px;
+    }
+
+    .contents > p {
+        color: #333;
+        line-height: 2;
+        margin-bottom: 2em;
+    }
+
+    .section-title {
+        font-weight: 300;
+        font-size: 16px;
+        padding: 16px 0;
+    }
+
+
+    /* メインコンテンツ タブレット横向き以上 */
+    @media (min-width: 1024px) {
+        #note-note_list {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-column-gap: 32px;
+            column-gap: 32px;
+        }
+
+        #note-note_list > * {
+            grid-column: 1/-1;
+        }
+
+        #note-note_list > article {
+            grid-column: auto;
+        }
+    }
+
+    /* メインコンテンツ PC */
+    @media (min-width: 1366px) {
+        #note-note_list {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+        }
+    }
+</style>
+
+<section id="note-note_find" class="container">
+    <h1 class="section-title">検索結果</h1>
+
+    {% for note in object_list %}
+
+        <article class="note">
+            <a href="{% url 'note:note_detail' note.pk %}">
+                <h2 class="note-title">{{ note.title }}</h2>
+                <p class="meta">
+                    <!-- <time datetime="{{ note.created_at | date:'Y-m-d' }}">{{ note.created_at | date:'Y年n月j日' }}</time> -->
+                    {{ note.department  }} - {{ note.category }}
+                </p>
+                <div class="contents">
+                    <p>
+                        {{ note.text | truncatechars:50 }}
+                    </p>
+                </div>
+            </a>
+        </article>
+
+    {% empty %}
+        <p>記事が見つかりませんでした。</p>
+    {% endfor %}
+    <a href="http://localhost:8000/notehome">戻る</a>
+</section>
+{% endblock %}
